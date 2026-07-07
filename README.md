@@ -11,3 +11,5 @@ The code should be ran in the following order within Rstudio:
 3. drug_interactions_zoli_gepo_publish.R
 4. table_1_2.R (this is a combined file of the table 1 and 2 results)
 5. supplementary_figure_4_mean_MIC.R
+
+The raw data is contained within the first 3 files. 
