@@ -9,7 +9,7 @@ The code should be ran in the following order within Rstudio:
 1. drug_interactions_gepo_cipro_publish.R
 2. drug_interactions_zoli_cipro_publish.R
 3. drug_interactions_zoli_gepo_publish.R
-4. table_1_2.R (this is a combined file of the table 1 and 2 results)
+4. table_1_2.R (this is a combined file of the table 1 and 2 results, with a cleaner way to make the table. It isn't completely necessary (has no new raw data/processing) but does demonstrate exactly how I made my tables.)
 
 The raw data is contained within the first 3 files. 
 Supplementary files Tables S3-S5 are derived from the first 3 files. 
