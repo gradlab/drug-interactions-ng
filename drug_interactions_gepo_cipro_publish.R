@@ -1,6 +1,6 @@
 ##gepo cipro drug interactions
 #Bailey Bowcutt
-#08.26.2025
+#09.18.2026
 
 library(dplyr)
 setwd("path/to/your/folder")
@@ -668,6 +668,30 @@ data_list16 <- list(
     ), nrow=6, ncol=6, byrow=TRUE)
   )
 )
+
+#concentrations_A <- c(0, 0.031, 0.063, 0.125, 0.25, 0.5) #gepo 
+#concentrations_J <- c(0, 0.000325, 0.00075, 0.0015, .003, .006) #cipro
+data_list17 <- list(
+  GCGS0457_91S_95D = list( 
+    Replicate1_090326= matrix(c(
+      1, 1, 1, 1, 0, 0,
+      1, 1, 1, 1, 0, 0,
+      1, 1, 1, 1, 0, 0,
+      1, 1, 1, 0, 0, 0,
+      0, 0, 0, 0, 0, 0,
+      0, 0, 0, 0, 0, 0
+    ), nrow=6, ncol=6, byrow=TRUE),
+    Replicate2_090426= matrix(c(
+      1, 1, 1, 1, 0, 0,
+      1, 1, 1, 1, 0, 0,
+      1, 1, 1, 1, 0, 0,
+      1, 1, 1, 0, 0, 0,
+      0, 0, 0, 0, 0, 0,
+      0, 0, 0, 0, 0, 0
+    ), nrow=6, ncol=6, byrow=TRUE)
+  )
+)
+
 # ---------------------- Data Analysis ----------------------
 
 # Find MICs from a single plate:
@@ -763,7 +787,8 @@ results <- list(
   run_block(data_list13, concentrations_F, concentrations_H, "Block F×H"),
   run_block(data_list14, concentrations_A, concentrations_I, "Block A×I"),
   run_block(data_list15, concentrations_C, concentrations_G, "Block C×G"),
-  run_block(data_list16, concentrations_A, concentrations_A, "Block A×A")
+  run_block(data_list16, concentrations_A, concentrations_A, "Block A×A"),
+  run_block(data_list17, concentrations_A, concentrations_J, "Block A×J")
 )
 
 all_results_long <- bind_rows(results)
@@ -776,17 +801,17 @@ all_results_for_plot <- all_results_for_plot %>%
   mutate(FICI_Category = factor(
     dplyr::case_when(
       FICI <= 0.5 ~ "Synergy",
-      FICI <= 1   ~ "Additivity",
-      FICI <= 4   ~ "Indifference",
+      FICI <= 4   ~ "No_Interaction",
       TRUE        ~ "Antagonism"
     ),
-    levels = c("Antagonism", "Indifference", "Additivity", "Synergy")
+    levels = c("Antagonism", "No_Interaction", "Synergy")
   ))
 
 #counting replicates 
 all_data_lists <- list(data_list, data_list2, data_list3,data_list4, data_list5,
                        data_list6,data_list7, data_list8, data_list9,data_list10,
-                       data_list11, data_list12,data_list13, data_list14, data_list15, data_list16)
+                       data_list11, data_list12,data_list13, data_list14, data_list15,
+                       data_list16, data_list17)
 
 # Combine all lists into one
 combined_data <- do.call(c, all_data_lists)
@@ -797,7 +822,7 @@ replicate_counts <- sapply(combined_data, function(strain_list) length(strain_li
 # Combine counts for duplicate strain names
 replicate_summary <- tapply(replicate_counts, names(replicate_counts), sum)
 
-# View results neatly
+# View results neatly (there should be 2 replicates per strain)
 replicate_summary
 
 
@@ -821,7 +846,7 @@ fici_by_strain <- all_results_for_plot %>%
   select(Strain, n_FICI, FICI_summary) 
 
 write.csv(fici_by_strain,
-          file = "gepo_cipro_fici_by_strain_2026_03_06.csv",
+          file = "gepo_cipro_fici_by_strain_2026_09_18.csv",
           row.names = FALSE)
 
 ###METADATA####
@@ -850,3 +875,4 @@ write.csv(gepo_cipro_mic_collapsed,
           file = "gepo_cipro_mic_collapsed.csv",
           row.names = FALSE)
 
+#this file ("gepo_cipro_mic_collapsed.csv") is what was used for supplementary table 4)

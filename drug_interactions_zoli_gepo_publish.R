@@ -1,9 +1,10 @@
 ##Drug interactions zoli gepo 
 #Bailey Bowcutt
-#08.26.2025
+#09.18.2026
 
 library(dplyr)
 setwd("path/to/your/folder")
+
 
 #remove all currently saved variables, as there are some variable replicates between R files
 rm(list=ls())
@@ -171,11 +172,29 @@ data_list2 <- list(
       0, 0, 0, 0, 0, 0,
       0, 0, 0, 0, 0, 0
     ), nrow=6, ncol=6, byrow=TRUE)
+  ),
+  GCGS0457_91S_95D = list( 
+    Replicate1_090326 = matrix(c(
+      1, 1, 1, 1, 0, 0,
+      1, 1, 1, 1, 0, 0,
+      1, 1, 1, 1, 0, 0,
+      1, 1, 0, 0, 0, 0,
+      0, 0, 0, 0, 0, 0,
+      0, 0, 0, 0, 0, 0
+    ), nrow=6, ncol=6, byrow=TRUE),
+    Replicate2_090426 = matrix(c(
+      1, 1, 1, 1, 0, 0,
+      1, 1, 1, 1, 0, 0,
+      1, 1, 1, 1, 0, 0,
+      1, 1, 0, 0, 0, 0,
+      0, 0, 0, 0, 0, 0,
+      0, 0, 0, 0, 0, 0
+    ), nrow=6, ncol=6, byrow=TRUE)
   )
 )
 
-#concentrations_B <- c(0, .031, .063, .125, .25, .5) #Zoli
-#concentrations_B <- c(0, 0.031, 0.062, 0.125, 0.25, 0.5) #Gepo
+#concentrations_B <- c(0, 0.031, 0.063, 0.125, 0.25, .5) #Zoli
+#concentrations_B <- c(0, 0.031, 0.063, 0.125, 0.25, 0.5) #Gepo
 
 data_list3 <- list(
   GCGS0481_91S_95D = list( 
@@ -667,6 +686,22 @@ data_list14 <- list(
   )
 )
 
+##data for the replicate 3 of strain GCGS0481 gyrA91S/95N gyrBD429N tested within the affected drug ranges
+#this was not integrated into the main FICI table, but used as a third replicate to see if synergy would reoccur
+#concentrations_C <- c(0, 1, 2, 4, 8, 16) #Zoli
+#concentrations_B <- c(0, 0.031, 0.062, 0.125, 0.25, 0.5) #gepo 
+#data_listXX <- list(
+#  GCGS0481_91S_95N_D86N = list( 
+#    Replicate3_091025= matrix(c(
+#      1, 1, 1, 1, 0, 0,
+#      1, 1, 1, 0, 0, 0,
+#      1, 
+#      1,
+#      1, 
+#      0, 
+#    )
+#  )
+#no synergy in these! All indifference
 
 # ---------------------- Data Analysis ----------------------
 
@@ -774,11 +809,10 @@ all_results_for_plot <- all_results_for_plot %>%
   mutate(FICI_Category = factor(
     dplyr::case_when(
       FICI <= 0.5 ~ "Synergy",
-      FICI <= 1   ~ "Additivity",
-      FICI <= 4   ~ "Indifference",
+      FICI <= 4   ~ "No_Interaction",
       TRUE        ~ "Antagonism"
     ),
-    levels = c("Antagonism", "Indifference", "Additivity", "Synergy")
+    levels = c("Antagonism", "No_Interaction", "Synergy")
   ))
 
 
@@ -822,7 +856,7 @@ fici_by_strain <- all_results_for_plot %>%
   select(Strain, n_FICI, FICI_summary) 
 
 write.csv(fici_by_strain,
-          file = "zoli_gepo_fici_by_strain_2026_03_06.csv",
+          file = "zoli_gepo_fici_by_strain_2026_09_18.csv",
           row.names = FALSE)
 
 
@@ -852,3 +886,5 @@ zoli_gepo_mic_collapsed
 write.csv(zoli_gepo_mic_collapsed,
           file = "zoli_gepo_mic_collapsed.csv",
           row.names = FALSE)
+
+#this file ("zoli_gepo_mic_collapsed.csv") is what was used for supplementary table 3)

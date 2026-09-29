@@ -1,9 +1,9 @@
 ##Zoli cipro
 #Bailey Bowcutt
-#09.3.2025
+#09.18.2026
 
 library(dplyr)
-setwd("path/to/your/folder")
+#setwd("path/to/your/folder")
 
 #remove all currently saved variables, as there are some variable replicates between R files
 rm(list=ls())
@@ -680,6 +680,28 @@ data_list20 <- list(
   )
 )
 
+#concentrations_I <- c(0, .016, .032, .063, .125, .25) #zoli
+concentrations_T <- c(0, 0.000325, 0.00075, 0.0015, .003, .006) #cipro
+data_list21 <- list(
+  GCGS0457_91S_95D = list( 
+    Replicate1_082826= matrix(c(
+      1, 1, 1, 1, 1, 0,
+      1, 1, 1, 1, 0, 0,
+      1, 1, 1, 1, 0, 0,
+      1, 1, 0, 0, 0, 0,
+      0, 0, 0, 0, 0, 0,
+      0, 0, 0, 0, 0, 0
+    ), nrow=6, ncol=6, byrow=TRUE),
+    Replicate2_090326= matrix(c(
+      1, 1, 1, 1, 0, 0,
+      1, 1, 1, 1, 0, 0,
+      1, 1, 1, 1, 0, 0,
+      1, 1, 0, 0, 0, 0,
+      0, 0, 0, 0, 0, 0,
+      0, 0, 0, 0, 0, 0
+    ), nrow=6, ncol=6, byrow=TRUE)
+  )
+)
 # ---------------------- Data Analysis ----------------------
 
 # Find MICs from a single plate:
@@ -778,7 +800,8 @@ results <- list(
   run_block(data_list17, concentrations_D, concentrations_P, "Block D×P"),
   run_block(data_list18, concentrations_I, concentrations_Q, "Block I×Q"),
   run_block(data_list19, concentrations_H, concentrations_R, "Block H×R"),
-  run_block(data_list20, concentrations_F, concentrations_S, "Block F×S")
+  run_block(data_list20, concentrations_F, concentrations_S, "Block F×S"),
+  run_block(data_list21, concentrations_I, concentrations_T, "Block I×T")
 )
 
 all_results_long <- bind_rows(results)
@@ -791,19 +814,19 @@ all_results_for_plot <- all_results_for_plot %>%
   mutate(FICI_Category = factor(
     dplyr::case_when(
       FICI <= 0.5 ~ "Synergy",
-      FICI <= 1   ~ "Additivity",
-      FICI <= 4   ~ "Indifference",
+      FICI <= 4   ~ "No_Interaction",
       TRUE        ~ "Antagonism"
     ),
-    levels = c("Antagonism", "Indifference", "Additivity", "Synergy")
+    levels = c("Antagonism", "No_Interaction", "Synergy")
   ))
 
 
 #counting replicates 
 all_data_lists <- list(data_list2, data_list3,data_list4, data_list5,
-                       data_list6,data_list7, data_list8, data_list9,data_list10,
-                       data_list11, data_list12,data_list13, data_list14, data_list15,
-                       data_list16, data_list17, data_list18, data_list19, data_list20)
+                       data_list6, data_list7, data_list8, data_list9, data_list10,
+                       data_list11, data_list12, data_list13, data_list14, data_list15,
+                       data_list16, data_list17, data_list18, data_list19, data_list20,
+                       data_list21)
 
 
 # Combine all lists into one
@@ -840,7 +863,7 @@ fici_by_strain <- all_results_for_plot %>%
     select(Strain, n_FICI, FICI_summary) 
 
 write.csv(fici_by_strain,
-          file = "zoli_cipro_fici_by_strain_2026_03_06.csv",
+          file = "zoli_cipro_fici_by_strain_2026_09_18.csv",
           row.names = FALSE)
 
 
@@ -870,4 +893,6 @@ zoli_cipro_mic_collapsed
 write.csv(zoli_cipro_mic_collapsed,
           file = "zoli_cipro_mic_collapsed.csv",
           row.names = FALSE)
+
+#this file ("zoli_cipro_mic_collapsed.csv") is what was used for supplementary table 5)
 
