@@ -1,6 +1,5 @@
-##gepo cipro drug interactions
-#Bailey Bowcutt
-#09.18.2026
+#Gepo x cipro drug interactions
+#10.22.2026
 
 library(dplyr)
 setwd("path/to/your/folder")
@@ -670,7 +669,7 @@ data_list16 <- list(
 )
 
 #concentrations_A <- c(0, 0.031, 0.063, 0.125, 0.25, 0.5) #gepo 
-#concentrations_J <- c(0, 0.000325, 0.00075, 0.0015, .003, .006) #cipro
+concentrations_K <- c(0, 0.000325, 0.00075, 0.0015, .003, .006) #cipro
 data_list17 <- list(
   GCGS0457_91S_95D = list( 
     Replicate1_090326= matrix(c(
@@ -788,7 +787,7 @@ results <- list(
   run_block(data_list14, concentrations_A, concentrations_I, "Block A×I"),
   run_block(data_list15, concentrations_C, concentrations_G, "Block C×G"),
   run_block(data_list16, concentrations_A, concentrations_A, "Block A×A"),
-  run_block(data_list17, concentrations_A, concentrations_J, "Block A×J")
+  run_block(data_list17, concentrations_A, concentrations_K, "Block A×K")
 )
 
 all_results_long <- bind_rows(results)
@@ -836,7 +835,7 @@ fici_by_strain <- all_results_for_plot %>%
     min_FICI  = min(FICI, na.rm = TRUE),
     max_FICI  = max(FICI, na.rm = TRUE),
     FICI_summary = sprintf(
-      "%.3f(%.3f-%.3f)",
+      "%.2f(%.2f-%.2f)",
       mean_FICI,
       min_FICI,
       max_FICI

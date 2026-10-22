@@ -1,6 +1,5 @@
-##Zoli cipro
-#Bailey Bowcutt
-#09.18.2026
+#Zoli x cipro drug interactions
+#10.22.2026
 
 library(dplyr)
 #setwd("path/to/your/folder")
@@ -853,7 +852,7 @@ fici_by_strain <- all_results_for_plot %>%
     min_FICI  = min(FICI, na.rm = TRUE),
     max_FICI  = max(FICI, na.rm = TRUE),
     FICI_summary = sprintf(
-    "%.3f(%.3f-%.3f)",
+    "%.2f(%.2f-%.2f)",
     mean_FICI,
     min_FICI,
     max_FICI
