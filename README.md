@@ -13,3 +13,5 @@ The code should be ran in the following order within Rstudio:
 
 The raw data is contained within the first 3 files. 
 Supplementary files Tables S3-S5 are derived from the first 3 files. 
+
+If you have any issues running things or errors in your code, please feel free to reach out @ Baileybowcutt at g.harvard.edu. 
